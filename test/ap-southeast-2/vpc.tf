@@ -2,7 +2,7 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = local.name
-  cidr = local.vpc_cidr
+  cidr = var.vpc_cidr
 
   azs             = ["${local.region}a", "${local.region}b", "${local.region}c"]
   public_subnets  = values(local.cidr_blocks_public)
@@ -20,13 +20,7 @@ module "vpc" {
   dhcp_options_domain_name         = local.vpc_domain
   dhcp_options_domain_name_servers = ["AmazonProvidedDNS"]
 
-  tags = {
-    "Terraform"   = "true"
-    "Environment" = var.environment
-    "Cost Center" = "Platform"
-    "Name"        = local.name
-    ResourceGroup = var.namespace
-  }
+  tags = local.tags
 
   public_subnet_tags = {
     "Terraform"   = "true"

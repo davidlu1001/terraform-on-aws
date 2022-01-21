@@ -9,7 +9,7 @@ data "aws_kms_alias" "s3" {
 }
 
 resource "aws_resourcegroups_group" "resourcegroups_group" {
-  name = "${var.namespace}-group-${var.environment}"
+  name = "group-${local.name}"
   resource_query {
     query = <<-JSON
 {
@@ -42,10 +42,7 @@ resource "aws_s3_bucket" "s3_bucket" {
       }
     }
   }
-  tags = {
-    ResourceGroup = var.namespace
-    Environment   = var.environment
-  }
+  tags = local.tags
 }
 
 resource "aws_s3_bucket_public_access_block" "s3_bucket" {
@@ -64,8 +61,5 @@ resource "aws_dynamodb_table" "dynamodb_table" {
     name = "LockID"
     type = "S"
   }
-  tags = {
-    ResourceGroup = var.namespace
-    Environment   = var.environment
-  }
+  tags = local.tags
 }

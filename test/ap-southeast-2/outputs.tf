@@ -8,3 +8,10 @@ output "config" {
 output "tags" {
   value = local.tags
 }
+
+output "gateway" {
+  value = {
+    dns_record = aws_route53_record.gateway.fqdn
+    public_ip  = aws_instance.ec2-gateway.public_ip
+  }
+}

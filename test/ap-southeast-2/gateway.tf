@@ -40,6 +40,10 @@ data "template_cloudinit_config" "cloud_config" {
   }
 }
 
+resource "aws_eip" "gateway" {
+  vpc = true
+}
+
 resource "aws_instance" "ec2-gateway" {
   availability_zone = "${local.region}a"
   ami               = data.aws_ami.amazon_linux.id
@@ -83,10 +87,20 @@ resource "aws_instance" "ec2-gateway" {
   }
 }
 
-resource "aws_eip_association" "eip-association" {
+resource "aws_eip_association" "ec2-eip-association" {
   instance_id   = aws_instance.ec2-gateway.id
-  allocation_id = module.vpc.nat_ids[0]
+  allocation_id = aws_eip.gateway.id
 }
+
+# maps route53 record to eip
+resource "aws_route53_record" "eip" {
+  zone_id = var.zone_id
+  name    = "${local.route53_record_prefix}-${element(split("-", aws_instance.ec2-gateway.id), 1)}"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_eip.gateway.public_ip]
+}
+
 
 resource "aws_iam_role" "gateway" {
   name               = "gateway-role-${local.name}"
@@ -105,9 +119,9 @@ resource "aws_iam_instance_profile" "gateway" {
 
 resource "aws_route53_record" "gateway" {
   zone_id         = var.zone_id
-  name            = "gateway-${local.name}"
+  name            = "gateway"
   type            = "A"
   ttl             = "300"
-  records         = [module.vpc.nat_public_ips[0]]
+  records         = [aws_instance.ec2-gateway.public_ip == "" ? aws_instance.ec2-gateway.private_ip : aws_instance.ec2-gateway.public_ip]
   allow_overwrite = true
 }

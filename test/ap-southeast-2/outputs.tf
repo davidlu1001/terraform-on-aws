@@ -4,3 +4,7 @@ output "config" {
     dynamodb_table = aws_dynamodb_table.dynamodb_table.name
   }
 }
+
+output "tags" {
+  value = local.tags
+}

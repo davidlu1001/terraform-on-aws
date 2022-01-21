@@ -6,10 +6,6 @@ variable "environment" {
   description = "Environment"
 }
 
-#variable "vpc_id" {
-#  description = "VPC ID"
-#}
-
 variable "image_id" {
   description = "AMI Image ID"
 }

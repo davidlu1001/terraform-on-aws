@@ -100,7 +100,6 @@ data "terraform_remote_state" "app" {
   }
 }
 
-
 variable "instance_type" {
   description = "The EC2 instance type for gateway"
   default     = "t3a.small"
@@ -112,3 +111,10 @@ variable "root_volume_size" {
   default     = 50
   type        = number
 }
+
+variable "zone_id" {
+  description = "The route53 zone id for vpc_root_domain"
+  default     = "Z04806802JR0EAMPN7QPK"
+  type        = string
+}
+

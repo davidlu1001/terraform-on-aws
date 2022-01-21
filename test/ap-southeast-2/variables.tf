@@ -1,8 +1,7 @@
 locals {
-  name            = "${var.namespace}-${var.environment}"
-  region          = "ap-southeast-2"
-  vpc_root_domain = "test.adroitcreations.org"
-  vpc_domain      = "app.${local.vpc_root_domain}"
+  name       = "${var.namespace}-${var.environment}"
+  region     = "ap-southeast-2"
+  vpc_domain = "test.adroitcreations.org"
 
   cidr_blocks_public = {
     zone0 = "172.21.48.0/20"

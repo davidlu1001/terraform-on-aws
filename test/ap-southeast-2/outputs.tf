@@ -12,6 +12,6 @@ output "tags" {
 output "gateway" {
   value = {
     dns_record = aws_route53_record.gateway.fqdn
-    public_ip  = aws_instance.ec2-gateway.public_ip
+    public_ip  = module.ec2_gateway.instance_public_ip
   }
 }

@@ -68,7 +68,7 @@ resource "aws_alb_listener" "alb-https-listener" {
   tags = local.tags
 }
 
-# HTTP Listener (redirects traffic from the load balancer to the target group)
+# HTTP Listener - redirect action (http to https) "HTTPS://#{host}:443/#{path}?#{query}"
 resource "aws_alb_listener" "alb-http-listener" {
   load_balancer_arn = aws_lb.alb.id
   port              = "80"
@@ -76,8 +76,13 @@ resource "aws_alb_listener" "alb-http-listener" {
   depends_on        = [aws_alb_target_group.target-group]
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.target-group.arn
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 
   tags = local.tags

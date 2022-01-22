@@ -1,7 +1,8 @@
 locals {
-  name       = "${var.namespace}-${var.environment}"
-  region     = "ap-southeast-2"
-  vpc_domain = "test.adroitcreations.org"
+  name        = "${var.namespace}-${var.environment}"
+  region      = "ap-southeast-2"
+  vpc_domain  = "test.adroitcreations.org"
+  domain_name = "app.${local.vpc_domain}"
 
   cidr_blocks_public = {
     zone0 = "172.21.48.0/20"
@@ -117,3 +118,7 @@ variable "zone_id" {
   type        = string
 }
 
+variable "healthcheck_path" {
+  description = "Path to a LB healthcheck endpoint"
+  default     = "/"
+}

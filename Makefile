@@ -17,6 +17,10 @@ init:
 get_modules:
 	terraform get
 
+check: clean get_modules
+	cd "$$(git rev-parse --show-toplevel)" || exit 1
+	docker run -v "$$(pwd)":/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:latest run -a
+
 plan: clean init get_modules
 	terraform plan -out current.plan
 	terraform show -no-color current.plan > txt.plan

@@ -21,4 +21,3 @@ output "instance_private_ip" {
 output "instance_security_groups" {
   value = [aws_instance.main.vpc_security_group_ids]
 }
-

@@ -103,4 +103,3 @@ resource "aws_route53_record" "main_instance" {
 
   allow_overwrite = var.router53_allow_overwrite
 }
-

@@ -129,3 +129,31 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+# ECS Security group (traffic ALB -> ECS, ssh -> ECS)
+resource "aws_security_group" "ecs" {
+  name        = "ecs_security_group"
+  description = "Allows inbound access from the ALB only"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.alb.id]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}

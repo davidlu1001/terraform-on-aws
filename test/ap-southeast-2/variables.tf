@@ -39,23 +39,33 @@ variable "force_destroy_state" {
 }
 
 variable "subnet_octets" {
-  default = "172.21"
+  description = "The CIDR prefix for VPC subnet"
+  default     = "172.21"
+  type        = string
 }
 
 variable "region" {
-  default = "ap-southeast-2"
+  description = "The Region"
+  default     = "ap-southeast-2"
+  type        = string
 }
 
 variable "vpc_cidr" {
-  default = "172.21.0.0/16"
+  description = "The VPC CIDR"
+  default     = "172.21.0.0/16"
+  type        = string
 }
 
 variable "account_id" {
-  default = "500955583076"
+  description = "The AWS Account ID"
+  default     = "500955583076"
+  type        = string
 }
 
 variable "environment" {
-  default = "test"
+  description = "The AWS Environment"
+  default     = "test"
+  type        = string
 }
 
 variable "resource_tags" {
@@ -101,8 +111,8 @@ data "terraform_remote_state" "app" {
 }
 
 variable "instance_type" {
-  description = "The EC2 instance type for gateway"
-  default     = "t3a.small"
+  description = "The EC2 instance type for gateway/ASG"
+  default     = "t3a.micro"
   type        = string
 }
 
@@ -121,4 +131,36 @@ variable "zone_id" {
 variable "healthcheck_path" {
   description = "Path to a LB healthcheck endpoint"
   default     = "/"
+  type        = string
+}
+
+variable "time_zone" {
+  description = "Time zone for ASG instance"
+  default     = "Pacific/Auckland"
+  type        = string
+}
+
+variable "ecs_cluster_name" {
+  description = "ECS cluster name"
+  default     = ""
+  type        = string
+}
+
+variable "route53_record_prefix" {
+  description = "DNS prefix to be used when creating a custom route53 record for instances created by the autoscaling group."
+  default     = ""
+  type        = string
+}
+
+variable "cost_center" {
+  description = "Cost Center to tag"
+  default     = "Platform"
+  type        = string
+}
+
+
+variable "vpc_domain" {
+  description = "VPC domain for ASG instance"
+  default     = "test.adroitcreations.org"
+  type        = string
 }

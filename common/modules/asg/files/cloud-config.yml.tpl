@@ -14,4 +14,4 @@ ssh_authorized_keys:
   - ssh-rsa ***
 
 runcmd:
-  - echo "ECS_CLUSTER=asg-${name}" > /etc/ecs/ecs.config
+  - echo "ECS_CLUSTER=ecs-${name}" > /etc/ecs/ecs.config

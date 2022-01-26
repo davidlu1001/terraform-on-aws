@@ -154,7 +154,6 @@ resource "aws_launch_template" "main" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = [latest_version]
   }
 }
 

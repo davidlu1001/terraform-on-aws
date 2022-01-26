@@ -26,6 +26,16 @@ resource "aws_iam_instance_profile" "asg-profile" {
   role = aws_iam_role.asg-role.name
 }
 
+data "template_file" "ecs_extra_cloudinit_content" {
+  template = file("files/ecs-extra-cloud-config.sh.tpl")
+
+  vars = {
+    ASG_NAME           = "asg-${local.name}"
+    AWS_DEFAULT_REGION = local.region
+    ECS_CLUSTER        = "ecs-${local.name}"
+  }
+}
+
 module "asg" {
   source = "../../common/modules/asg"
 
@@ -37,7 +47,7 @@ module "asg" {
   instance_ebs_optimized   = true
   iam_instance_profile_arn = aws_iam_instance_profile.asg-profile.arn
   subnet_ids               = module.vpc.private_subnets
-  security_groups          = ["${aws_security_group.ecs.id}"]
+  security_groups          = [aws_security_group.ecs.id]
 
   on_demand_base_capacity                  = 0
   on_demand_percentage_above_base_capacity = 100
@@ -58,5 +68,7 @@ module "asg" {
   suspended_processes              = ["AZRebalance", "ReplaceUnhealthy"]
   ebs_delete_on_termination        = true
   ebs_volume_size                  = 1
+  extra_cloud_config_type          = "text/x-shellscript"
+  extra_cloud_config_content       = data.template_file.ecs_extra_cloudinit_content.rendered
   target_group_arns                = [aws_alb_target_group.target-group.arn]
 }

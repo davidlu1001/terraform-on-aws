@@ -262,4 +262,3 @@ variable "max_instance_lifetime" {
   type        = number
   default     = 0
 }
-

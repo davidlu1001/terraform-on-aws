@@ -23,3 +23,13 @@ output "alb_public_dns_name" {
     alb_dns_name   = aws_lb.alb.dns_name
   }
 }
+
+output "asg" {
+  description = "Names / ARNs of the ASG / Launch Template"
+  value = {
+    asg_name                           = module.asg.name
+    asg_arn                            = module.asg.asg_arn
+    asg_launch_template_arn            = module.asg.asg_launch_template_arn
+    asg_launch_template_latest_version = module.asg.asg_launch_template_latest_version
+  }
+}

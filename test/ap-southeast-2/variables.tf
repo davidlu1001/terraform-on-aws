@@ -74,26 +74,6 @@ variable "resource_tags" {
   default     = {}
 }
 
-data "terraform_remote_state" "test-adroitcreations-org" {
-  backend = "s3"
-
-  config = {
-    bucket = "ac-terraform-test"
-    key    = "ap-southeast-2/test"
-    region = "ap-southeast-2"
-  }
-}
-
-data "terraform_remote_state" "dns-test" {
-  backend = "s3"
-
-  config = {
-    bucket = "ac-terraform-test"
-    key    = "dns/test"
-    region = "ap-southeast-2"
-  }
-}
-
 variable "ssh_pubkey_file" {
   description = "The public key for ssh keypair"
   default     = "~/.ssh/id_rsa_ac.pub"
@@ -157,7 +137,6 @@ variable "cost_center" {
   default     = "Platform"
   type        = string
 }
-
 
 variable "vpc_domain" {
   description = "VPC domain for ASG instance"

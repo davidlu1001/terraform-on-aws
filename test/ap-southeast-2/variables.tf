@@ -143,3 +143,34 @@ variable "vpc_domain" {
   default     = "test.adroitcreations.org"
   type        = string
 }
+
+variable "ecs_task_count" {
+  description = "Number of instances of the task definition to place and keep running. Defaults to 0."
+  default     = 1
+  type        = number
+}
+
+variable "ecr_repo_name" {
+  description = "ECR repositry name"
+  default     = "aws-learn-devops/todobackend"
+  type        = string
+}
+
+variable "rds_password" {
+  description = "Temp password for RDS"
+  default     = "YourPwdShouldBeLongAndSecure!"
+  type        = string
+  sensitive   = true
+}
+
+variable "rds_db_name" {
+  description = "DB Name for RDS"
+  default     = "todobackend"
+  type        = string
+}
+
+variable "rds_username" {
+  description = "Username for RDS"
+  default     = "todobackend"
+  type        = string
+}

@@ -10,8 +10,7 @@ resource "aws_lb" "alb" {
   load_balancer_type = "application"
   internal           = false
   subnets            = module.vpc.public_subnets
-  #subnets         = flatten([module.vpc.public_subnets])
-  security_groups = [aws_security_group.alb.id]
+  security_groups    = [aws_security_group.alb.id]
 
   lifecycle {
     create_before_destroy = true

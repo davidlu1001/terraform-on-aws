@@ -84,7 +84,7 @@ data "terraform_remote_state" "app" {
   backend = "s3"
 
   config = {
-    bucket = "app-terraform-test"
+    bucket = "terraform-app-test"
     key    = "ap-southeast-2/test"
     region = "ap-southeast-2"
   }

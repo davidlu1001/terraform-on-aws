@@ -57,7 +57,7 @@ module "asg" {
   protect_from_scale_in            = false
   min_size                         = 0
   max_size                         = 1
-  desired_capacity                 = 0
+  desired_capacity                 = 1
   root_volume_size                 = 30
   asg_cooldown                     = 420
   vpc_domain                       = local.vpc_domain

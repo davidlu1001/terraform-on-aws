@@ -15,6 +15,8 @@ resource "aws_ecs_cluster" "app" {
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = local.tags
 }
 
 data "template_file" "app" {

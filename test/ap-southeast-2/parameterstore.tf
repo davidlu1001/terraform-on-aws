@@ -41,7 +41,10 @@ resource "aws_ssm_parameter" "database_password_parameter" {
   description = "${var.environment} environment database password for ${local.name}"
   type        = "SecureString"
   value       = random_password.database_password.result
+
+  tags = local.tags
 }
+
 resource "aws_iam_role_policy" "password_policy" {
   name = "password-policy"
   role = aws_iam_role.ecs_task_execution_role.id

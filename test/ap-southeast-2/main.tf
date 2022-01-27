@@ -29,7 +29,7 @@ JSON
 
 # S3 bucket for state
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket        = "${var.namespace}-terraform-${var.environment}"
+  bucket        = "terraform-${local.name}"
   force_destroy = var.force_destroy_state
   versioning {
     enabled = true
@@ -54,7 +54,7 @@ resource "aws_s3_bucket_public_access_block" "s3_bucket" {
 }
 
 resource "aws_dynamodb_table" "dynamodb_table" {
-  name         = "${var.namespace}-state-lock-${var.environment}"
+  name         = "tfstate-lock-${local.name}"
   hash_key     = "LockID"
   billing_mode = "PAY_PER_REQUEST"
   attribute {

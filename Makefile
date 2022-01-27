@@ -1,4 +1,6 @@
 SHELL=/usr/bin/env bash
+PLAN_OPTIONS ?=
+APPLY_OPTIONS ?=
 
 .PHONY: clean plan apply test
 
@@ -22,11 +24,17 @@ check: clean get_modules
 	docker run -v "$$(pwd)":/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:latest run -a
 
 plan: clean init get_modules
-	terraform plan -out current.plan
+	terraform plan -out current.plan ${PLAN_OPTIONS}
 	terraform show -no-color current.plan > txt.plan
 
 apply: current.plan
-	terraform apply -auto-approve current.plan
+	terraform apply -auto-approve ${APPLY_OPTIONS} current.plan
 
 test:
 	@terraform fmt -diff=true -write=false
+
+destroy_plan:
+	terraform plan -destroy -out destroy.plan
+
+destroy_apply:
+	terraform apply -destroy destroy.plan

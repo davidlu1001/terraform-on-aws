@@ -156,13 +156,6 @@ variable "ecr_repo_name" {
   type        = string
 }
 
-variable "rds_password" {
-  description = "Temp password for RDS"
-  default     = "YourPwdShouldBeLongAndSecure!"
-  type        = string
-  sensitive   = true
-}
-
 variable "rds_db_name" {
   description = "DB Name for RDS"
   default     = "todobackend"

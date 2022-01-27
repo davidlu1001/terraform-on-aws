@@ -18,7 +18,7 @@ module "db" {
 
   name     = var.rds_db_name
   username = var.rds_username
-  password = var.rds_password
+  password = aws_ssm_parameter.database_password_parameter.value
   port     = "3306"
 
   iam_database_authentication_enabled = true

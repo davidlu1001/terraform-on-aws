@@ -27,19 +27,21 @@ data "template_file" "app" {
     region       = local.region
     rds_db_name  = var.rds_db_name
     rds_username = var.rds_username
-    rds_password = var.rds_password
+    rds_password = aws_ssm_parameter.database_password_parameter.arn
     # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#attributes-reference
     rds_hostname = module.db.db_instance_address
   }
 
   depends_on = [
     aws_ecr_repository.app,
-    module.db
+    module.db,
+    aws_ssm_parameter.database_password_parameter
   ]
 }
 
 resource "aws_ecs_task_definition" "app" {
   family                = local.name
+  execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = data.template_file.app.rendered
 
   volume {
@@ -97,7 +99,7 @@ data "template_file" "migrate" {
     region       = local.region
     rds_db_name  = var.rds_db_name
     rds_username = var.rds_username
-    rds_password = var.rds_password
+    rds_password = aws_ssm_parameter.database_password_parameter.arn
     rds_hostname = module.db.db_instance_address
   }
 
@@ -109,6 +111,7 @@ data "template_file" "migrate" {
 
 resource "aws_ecs_task_definition" "migrate" {
   family                = local.name
+  execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = data.template_file.migrate.rendered
 }
 

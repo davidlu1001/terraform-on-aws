@@ -42,12 +42,14 @@
                 "value": "${rds_username}"
             },
             {
-                "name": "MYSQL_PASSWORD",
-                "value": "${rds_password}"
-            },
-            {
                 "name": "MYSQL_DATABASE",
                 "value": "${rds_db_name}"
+            }
+        ],
+        "secrets": [
+            {
+                "name": "MYSQL_PASSWORD",
+                "valueFrom": "${rds_password}"
             }
         ],
         "logConfiguration": {

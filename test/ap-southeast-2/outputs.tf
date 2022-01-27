@@ -33,3 +33,21 @@ output "asg" {
     asg_launch_template_latest_version = module.asg.asg_launch_template_latest_version
   }
 }
+
+output "db_info" {
+  description = "DB endpoint/name info"
+  value = {
+    db_address = module.db.db_instance_address
+    db_port    = module.db.db_instance_port
+    db_name    = module.db.db_instance_name
+  }
+}
+
+output "db_login" {
+  description = "DB login info"
+  value = {
+    db_username = module.db.db_instance_username
+    db_password = module.db.db_master_password
+  }
+  sensitive = true
+}

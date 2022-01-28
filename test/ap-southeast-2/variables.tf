@@ -1,19 +1,20 @@
 locals {
   name        = "${var.namespace}-${var.environment}"
-  region      = "ap-southeast-2"
-  vpc_domain  = "test.adroitcreations.org"
-  domain_name = "app.${local.vpc_domain}"
+  region      = var.region
+  vpc_cidr    = "${var.subnet_octets}.0.0/16"
+  vpc_domain  = "${var.environment}.${var.root_domain}"
+  domain_name = "${var.namespace}.${local.vpc_domain}"
 
   cidr_blocks_public = {
-    zone0 = "172.21.48.0/20"
-    zone1 = "172.21.64.0/20"
-    zone2 = "172.21.80.0/20"
+    zone0 = "${var.subnet_octets}.48.0/20"
+    zone1 = "${var.subnet_octets}.64.0/20"
+    zone2 = "${var.subnet_octets}.80.0/20"
   }
 
   cidr_blocks_private = {
-    zone0 = "172.21.0.0/20"
-    zone1 = "172.21.16.0/20"
-    zone2 = "172.21.32.0/20"
+    zone0 = "${var.subnet_octets}.0.0/20"
+    zone1 = "${var.subnet_octets}.16.0/20"
+    zone2 = "${var.subnet_octets}.32.0/20"
   }
 
   required_tags = {
@@ -50,21 +51,13 @@ variable "region" {
   type        = string
 }
 
-variable "vpc_cidr" {
-  description = "The VPC CIDR"
-  default     = "172.21.0.0/16"
-  type        = string
-}
-
 variable "account_id" {
   description = "The AWS Account ID"
-  default     = "500955583076"
   type        = string
 }
 
 variable "environment" {
   description = "The AWS Environment"
-  default     = "test"
   type        = string
 }
 
@@ -80,15 +73,6 @@ variable "ssh_pubkey_file" {
   type        = string
 }
 
-data "terraform_remote_state" "app" {
-  backend = "s3"
-
-  config = {
-    bucket = "terraform-app-test"
-    key    = "ap-southeast-2/test"
-    region = "ap-southeast-2"
-  }
-}
 
 variable "instance_type" {
   description = "The EC2 instance type for gateway/ASG"
@@ -104,7 +88,6 @@ variable "root_volume_size" {
 
 variable "zone_id" {
   description = "The route53 zone id for vpc_root_domain"
-  default     = "Z04806802JR0EAMPN7QPK"
   type        = string
 }
 
@@ -114,33 +97,15 @@ variable "healthcheck_path" {
   type        = string
 }
 
-variable "time_zone" {
-  description = "Time zone for ASG instance"
-  default     = "Pacific/Auckland"
-  type        = string
-}
-
-variable "ecs_cluster_name" {
-  description = "ECS cluster name"
-  default     = ""
-  type        = string
-}
-
-variable "route53_record_prefix" {
-  description = "DNS prefix to be used when creating a custom route53 record for instances created by the autoscaling group."
-  default     = ""
-  type        = string
-}
-
 variable "cost_center" {
   description = "Cost Center to tag"
   default     = "Platform"
   type        = string
 }
 
-variable "vpc_domain" {
-  description = "VPC domain for ASG instance"
-  default     = "test.adroitcreations.org"
+variable "root_domain" {
+  description = "Root domain for VPC"
+  default     = "adroitcreations.org"
   type        = string
 }
 

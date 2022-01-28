@@ -33,7 +33,7 @@ module "ec2_gateway" {
   source = "../../common/modules/ec2-instance"
 
   name                        = "gateway-${local.name}"
-  cost_center                 = "Platform"
+  cost_center                 = var.cost_center
   key_name                    = local.name
   environment                 = var.environment
   image_id                    = data.aws_ami.amazon_linux.id

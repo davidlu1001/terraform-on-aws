@@ -35,7 +35,7 @@ variable "namespace" {
 
 variable "force_destroy_state" {
   description = "Force destroy the s3 bucket containing state files?"
-  default     = true
+  default     = false
   type        = bool
 }
 
@@ -191,6 +191,6 @@ variable "performance_insights_retention_period" {
 # CloudWatch Log retention_in_days
 variable "log_retention_in_days" {
   description = "Log Retention In Days"
-  default     = 1
+  default     = 7
   type        = number
 }

@@ -99,10 +99,10 @@
 | <a name="input_ecr_repo_name"></a> [ecr\_repo\_name](#input\_ecr\_repo\_name) | ECR repositry name | `string` | `"aws-learn-devops/todobackend"` | no |
 | <a name="input_ecs_task_count"></a> [ecs\_task\_count](#input\_ecs\_task\_count) | Number of instances of the task definition to place and keep running. Defaults to 0. | `number` | `1` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The AWS Environment | `string` | n/a | yes |
-| <a name="input_force_destroy_state"></a> [force\_destroy\_state](#input\_force\_destroy\_state) | Force destroy the s3 bucket containing state files? | `bool` | `true` | no |
+| <a name="input_force_destroy_state"></a> [force\_destroy\_state](#input\_force\_destroy\_state) | Force destroy the s3 bucket containing state files? | `bool` | `false` | no |
 | <a name="input_healthcheck_path"></a> [healthcheck\_path](#input\_healthcheck\_path) | Path to a LB healthcheck endpoint | `string` | `"/"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The EC2 instance type for gateway/ASG | `string` | `"t3a.micro"` | no |
-| <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | Log Retention In Days | `number` | `1` | no |
+| <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | Log Retention In Days | `number` | `7` | no |
 | <a name="input_multi_az"></a> [multi\_az](#input\_multi\_az) | DB Multi AZ | `bool` | `false` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The project namespace to use for unique resource naming | `string` | `"app"` | no |
 | <a name="input_performance_insights_enabled"></a> [performance\_insights\_enabled](#input\_performance\_insights\_enabled) | DB Performance Insights Enabled | `bool` | `false` | no |

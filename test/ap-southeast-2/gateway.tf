@@ -7,7 +7,7 @@ locals {
 }
 
 data "template_file" "cloud_config" {
-  template = file("files/cloud-config.yml.tpl")
+  template = file("../../common/files/cloud-config.yml.tpl")
 
   vars = {
     prefix = local.route53_record_prefix
@@ -62,13 +62,13 @@ module "ec2_gateway" {
 
 resource "aws_iam_role" "gateway" {
   name               = "gateway-role-${local.name}"
-  assume_role_policy = file("policies/ec2-assume-role.json")
+  assume_role_policy = file("../../common/policies/ec2-assume-role.json")
 }
 
 resource "aws_iam_role_policy" "gateway" {
   name   = "gateway-policy-${local.name}"
   role   = aws_iam_role.gateway.id
-  policy = file("policies/ec2-gateway-instance-profile.json")
+  policy = file("../../common/policies/ec2-gateway-instance-profile.json")
 }
 resource "aws_iam_instance_profile" "gateway" {
   name = "gateway-profile-${local.name}"

@@ -1,11 +1,11 @@
 resource "aws_iam_role" "ecs-service-role" {
   name               = "ecs-service-role-${local.name}"
-  assume_role_policy = file("policies/ecs-assume-role.json")
+  assume_role_policy = file("../../common/policies/ecs-assume-role.json")
 }
 
 resource "aws_iam_role_policy" "ecs-service-role-policy" {
   name   = "ecs-servicelrole-policy-${local.name}"
-  policy = file("policies/ecs-service-role-policy.json")
+  policy = file("../../common/policies/ecs-service-role-policy.json")
   role   = aws_iam_role.ecs-service-role.id
 }
 
@@ -20,7 +20,7 @@ resource "aws_ecs_cluster" "app" {
 }
 
 data "template_file" "app" {
-  template = file("files/task-def-app.json.tpl")
+  template = file("../../common/files/task-def-app.json.tpl")
 
   vars = {
     name         = local.name
@@ -92,7 +92,7 @@ resource "aws_ecs_service" "app" {
 # Onetime ECS task for db migrate
 
 data "template_file" "migrate" {
-  template = file("files/task-def-migrate.json.tpl")
+  template = file("../../common/files/task-def-migrate.json.tpl")
 
   vars = {
     name         = local.name

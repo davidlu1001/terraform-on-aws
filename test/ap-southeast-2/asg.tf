@@ -3,7 +3,7 @@ locals {
 }
 
 data "template_file" "asg-instance-profile" {
-  template = file("policies/asg-ecs-policy.json.tpl")
+  template = file("../../common/policies/asg-ecs-policy.json.tpl")
 
   vars = {
     asg_name = module.asg.name
@@ -12,7 +12,7 @@ data "template_file" "asg-instance-profile" {
 
 resource "aws_iam_role" "asg-role" {
   name               = "asg-${local.name}"
-  assume_role_policy = file("policies/ec2-assume-role.json")
+  assume_role_policy = file("../../common/policies/ec2-assume-role.json")
 }
 
 resource "aws_iam_role_policy" "asg-role-policy" {
@@ -27,7 +27,7 @@ resource "aws_iam_instance_profile" "asg-profile" {
 }
 
 data "template_file" "ecs_extra_cloudinit_content" {
-  template = file("files/ecs-extra-cloud-config.sh.tpl")
+  template = file("../../common/files/ecs-extra-cloud-config.sh.tpl")
 
   vars = {
     ASG_NAME           = "asg-${local.name}"

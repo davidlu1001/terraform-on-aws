@@ -91,15 +91,3 @@ resource "aws_route53_record" "main_eip" {
   ttl     = "300"
   records = [data.aws_eip.main.public_ip]
 }
-
-# maps route53 record to either the public ip, if present, or the private ip address
-resource "aws_route53_record" "main_instance" {
-  #count   = var.eip_allocation_id == "" ? 1 : 0
-  zone_id = var.zone_id
-  name    = "${var.route53_record_prefix}-${element(split("-", aws_instance.main.id), 1)}"
-  type    = "A"
-  ttl     = "300"
-  records = [aws_instance.main.public_ip == "" ? aws_instance.main.private_ip : aws_instance.main.public_ip]
-
-  allow_overwrite = var.router53_allow_overwrite
-}

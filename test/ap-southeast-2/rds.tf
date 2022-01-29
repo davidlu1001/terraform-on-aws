@@ -2,8 +2,6 @@ module "db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 3.0"
 
-  #create_db_instance = false
-
   identifier = var.namespace
 
   engine               = "mysql"
@@ -12,8 +10,8 @@ module "db" {
   major_engine_version = "8.0"
   instance_class       = var.db_instance_type
 
-  allocated_storage     = 5
-  max_allocated_storage = 100
+  allocated_storage     = var.db_allocated_storage
+  max_allocated_storage = var.db_max_allocated_storage
   storage_encrypted     = var.db_storage_encrypted
 
   name     = var.rds_db_name

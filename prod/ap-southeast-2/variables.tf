@@ -153,6 +153,20 @@ variable "db_storage_encrypted" {
   type        = bool
 }
 
+# DB allocated_storage
+variable "db_allocated_storage" {
+  description = "DB Min Allocated Storage Size"
+  default     = 20
+  type        = number
+}
+
+# DB max_allocated_storage
+variable "db_max_allocated_storage" {
+  description = "DB Max Allocated Storage Size"
+  default     = 100
+  type        = number
+}
+
 # DB backup_retention_period
 variable "backup_retention_period" {
   description = "DB Backup Retention Period"

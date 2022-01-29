@@ -9,8 +9,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
-| <a name="provider_template"></a> [template](#provider\_template) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.73.0 |
+| <a name="provider_template"></a> [template](#provider\_template) | 2.2.0 |
 
 ## Modules
 
@@ -23,7 +23,6 @@ No modules.
 | [aws_eip_association.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip_association) | resource |
 | [aws_instance.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_route53_record.main_eip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.main_instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_eip.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eip) | data source |
 | [template_cloudinit_config.cloud_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/cloudinit_config) | data source |
 | [template_file.cloud_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |

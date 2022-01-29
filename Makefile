@@ -44,7 +44,7 @@ get_modules:
 	terraform get
 
 check: clean get_modules
-	cd "$$(git rev-parse --show-toplevel)" || exit 1
+	@cd "$$(git rev-parse --show-toplevel)" || exit 1
 	docker run -v "$$(pwd)":/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:latest run -a
 
 plan: clean init get_modules
@@ -68,3 +68,7 @@ destroy_plan:
 
 destroy_apply:
 	terraform apply -destroy destroy.plan
+
+doc:
+	@cd "$$(git rev-parse --show-toplevel)" || exit 1
+	@for i in common/modules/* {test,prod}/ap-southeast-2; do terraform-docs markdown --output-file README.md $$i; done

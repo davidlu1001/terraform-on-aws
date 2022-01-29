@@ -93,7 +93,9 @@
 | <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The AWS Account ID | `string` | n/a | yes |
 | <a name="input_backup_retention_period"></a> [backup\_retention\_period](#input\_backup\_retention\_period) | DB Backup Retention Period | `number` | `0` | no |
 | <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Cost Center to tag | `string` | `"Platform"` | no |
+| <a name="input_db_allocated_storage"></a> [db\_allocated\_storage](#input\_db\_allocated\_storage) | DB Min Allocated Storage Size | `number` | `20` | no |
 | <a name="input_db_instance_type"></a> [db\_instance\_type](#input\_db\_instance\_type) | DB Instance Type | `string` | `"db.t3.micro"` | no |
+| <a name="input_db_max_allocated_storage"></a> [db\_max\_allocated\_storage](#input\_db\_max\_allocated\_storage) | DB Max Allocated Storage Size | `number` | `100` | no |
 | <a name="input_db_storage_encrypted"></a> [db\_storage\_encrypted](#input\_db\_storage\_encrypted) | DB Storage Encrypted | `bool` | `false` | no |
 | <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | DB Deletion Protection | `bool` | `false` | no |
 | <a name="input_ecr_repo_name"></a> [ecr\_repo\_name](#input\_ecr\_repo\_name) | ECR repositry name | `string` | `"aws-learn-devops/todobackend"` | no |

@@ -117,6 +117,8 @@ resource "aws_ecs_task_definition" "migrate" {
   container_definitions = data.template_file.migrate.rendered
 }
 
+# null resource to trigger ECS task and sleep for 10 seconds
+# to allow the task to be created
 resource "null_resource" "migrate" {
   triggers = {
     task_definition = aws_ecs_task_definition.migrate.arn
@@ -127,6 +129,7 @@ resource "null_resource" "migrate" {
     command     = <<EOF
 set -e
 
+sleep 10
 aws ecs run-task \
   --region ${local.region} \
   --cluster ${aws_ecs_cluster.app.arn} \

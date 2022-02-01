@@ -71,4 +71,3 @@ destroy_apply:
 
 doc:
 	@cd "$$(git rev-parse --show-toplevel)" && for i in common/modules/* {test,prod}/ap-southeast-2; do terraform-docs markdown --output-file README.md $$i; done
-

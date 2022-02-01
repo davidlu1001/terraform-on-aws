@@ -90,12 +90,13 @@ resource "aws_ecs_service" "app" {
 }
 
 # Onetime ECS task for db migrate
+# Ref: https://github.com/hashicorp/terraform-provider-aws/issues/9777
 
 data "template_file" "migrate" {
   template = file("../../common/files/task-def-migrate.json.tpl")
 
   vars = {
-    name         = local.name
+    name         = "${local.name}-migrate"
     docker_image = aws_ecr_repository.app.repository_url
     image_tag    = "latest"
     region       = local.region
@@ -112,7 +113,7 @@ data "template_file" "migrate" {
 }
 
 resource "aws_ecs_task_definition" "migrate" {
-  family                = local.name
+  family                = "${local.name}-migrate"
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = data.template_file.migrate.rendered
 }

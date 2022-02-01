@@ -71,20 +71,17 @@ resource "aws_instance" "main" {
 }
 
 resource "aws_eip_association" "main" {
-  #count         = var.eip_allocation_id != "" ? 1 : 0
   instance_id   = aws_instance.main.id
   allocation_id = var.eip_allocation_id
 }
 
 # fetch eip if necessary
 data "aws_eip" "main" {
-  #count = var.eip_allocation_id != "" ? 1 : 0
   id = var.eip_allocation_id
 }
 
 # maps route53 record to eip
 resource "aws_route53_record" "main_eip" {
-  #count   = var.eip_allocation_id != "" ? 1 : 0
   zone_id = var.zone_id
   name    = "${var.route53_record_prefix}-${element(split("-", aws_instance.main.id), 1)}"
   type    = "A"

@@ -96,7 +96,7 @@ data "template_file" "migrate" {
   template = file("../../common/files/task-def-migrate.json.tpl")
 
   vars = {
-    name         = "${local.name}-migrate"
+    name         = "${local.name}"
     docker_image = aws_ecr_repository.app.repository_url
     image_tag    = "latest"
     region       = local.region

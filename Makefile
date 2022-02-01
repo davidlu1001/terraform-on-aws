@@ -70,5 +70,5 @@ destroy_apply:
 	terraform apply -destroy destroy.plan
 
 doc:
-	@cd "$$(git rev-parse --show-toplevel)" || exit 1
-	@for i in common/modules/* {test,prod}/ap-southeast-2; do terraform-docs markdown --output-file README.md $$i; done
+	@cd "$$(git rev-parse --show-toplevel)" && for i in common/modules/* {test,prod}/ap-southeast-2; do terraform-docs markdown --output-file README.md $$i; done
+

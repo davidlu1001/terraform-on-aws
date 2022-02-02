@@ -45,11 +45,16 @@ get_modules:
 
 check: clean get_modules
 	@cd "$$(git rev-parse --show-toplevel)" || exit 1
-	docker run -v "$$(pwd)":/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:latest run -a
+	docker run \
+		-e INFRACOST_API_KEY=$$(awk -F': ' '/api_key/{print $$NF}' ~/.config/infracost/credentials.yml) \
+		-e INFRACOST_SKIP_UPDATE_CHECK=true \
+		-v "$$(pwd)":/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:latest \
+		run -a
 
 plan: clean init get_modules
 	terraform plan -out current.plan ${PLAN_OPTIONS}
 	terraform show -no-color current.plan > txt.plan
+	terraform show -json current.plan > plan.json
 
 plan_exclude:
 	terraform plan -out current.plan $(strip $(call PLAN_OPTIONS_EXCLUDE,$(EXCLUDE)))

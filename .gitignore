@@ -41,3 +41,6 @@ vendor
 
 aws.env
 tf.env
+
+# Ignore the plan.json used by infracost
+**/plan.json

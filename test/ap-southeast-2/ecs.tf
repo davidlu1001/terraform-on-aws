@@ -112,7 +112,7 @@ data "template_file" "migrate" {
 }
 
 resource "aws_ecs_task_definition" "migrate" {
-  family                = local.name
+  family                = "${local.name}-migrate"
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = data.template_file.migrate.rendered
 }

@@ -10,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.72.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.0 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.1.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
 | <a name="provider_template"></a> [template](#provider\_template) | 2.2.0 |
@@ -23,6 +23,7 @@
 | <a name="module_asg"></a> [asg](#module\_asg) | ../../common/modules/asg | n/a |
 | <a name="module_db"></a> [db](#module\_db) | terraform-aws-modules/rds/aws | ~> 3.0 |
 | <a name="module_ec2_gateway"></a> [ec2\_gateway](#module\_ec2\_gateway) | ../../common/modules/ec2-instance | n/a |
+| <a name="module_s3backend"></a> [s3backend](#module\_s3backend) | git@github.com:davidlu1001/terraform-on-aws-s3-backend.git | simple |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | n/a |
 
 ## Resources
@@ -34,7 +35,6 @@
 | [aws_alb_target_group.target-group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_target_group) | resource |
 | [aws_cloudwatch_log_group.ecs-log-group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_stream.ecs-log-stream](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_stream) | resource |
-| [aws_dynamodb_table.dynamodb_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
 | [aws_ecr_repository.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) | resource |
 | [aws_ecs_cluster.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
 | [aws_ecs_service.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
@@ -54,11 +54,8 @@
 | [aws_iam_role_policy_attachment.ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_key_pair.key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_lb.alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb) | resource |
-| [aws_resourcegroups_group.resourcegroups_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group) | resource |
 | [aws_route53_record.alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_s3_bucket.s3_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket_public_access_block.s3_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_security_group.alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.bastion](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.ecs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -72,13 +69,9 @@
 | [random_string.lb_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [aws_ami.amazon_linux](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 | [aws_ami.aws_optimized_ecs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy.ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy_document.ecs_task_execution_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_kms_alias.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_alias) | data source |
 | [aws_kms_alias.ssm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_alias) | data source |
-| [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
-| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [template_cloudinit_config.cloud_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/cloudinit_config) | data source |
 | [template_file.app](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.asg-instance-profile](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
@@ -101,7 +94,7 @@
 | <a name="input_ecr_repo_name"></a> [ecr\_repo\_name](#input\_ecr\_repo\_name) | ECR repositry name | `string` | `"aws-learn-devops/todobackend"` | no |
 | <a name="input_ecs_task_count"></a> [ecs\_task\_count](#input\_ecs\_task\_count) | Number of instances of the task definition to place and keep running. Defaults to 0. | `number` | `1` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The AWS Environment | `string` | n/a | yes |
-| <a name="input_force_destroy_state"></a> [force\_destroy\_state](#input\_force\_destroy\_state) | Force destroy the s3 bucket containing state files? | `bool` | `false` | no |
+| <a name="input_force_destroy_state"></a> [force\_destroy\_state](#input\_force\_destroy\_state) | Force destroy the s3 bucket containing state files? | `bool` | `true` | no |
 | <a name="input_healthcheck_path"></a> [healthcheck\_path](#input\_healthcheck\_path) | Path to a LB healthcheck endpoint | `string` | `"/"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The EC2 instance type for gateway/ASG | `string` | `"t3a.micro"` | no |
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | Log Retention In Days | `number` | `7` | no |

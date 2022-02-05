@@ -1,15 +1,16 @@
 SHELL=/usr/bin/env bash
 PLAN_OPTIONS ?=
 APPLY_OPTIONS ?=
+DESTROY_OPTIONS ?=
 EXCLUDE ?=
 INCLUDE ?=
 
 define PLAN_OPTIONS_EXCLUDE
-	$(shell terraform show -no-color current.plan | sed -n '/Terraform will perform the following actions/,$$p' | perl -nle 'if (/\s# (.*?)\s/) {print $$1}' | grep -E -v '$(1)' | sed -e 's/^/-target="/g' -e 's/$$/"/g' | xargs)
+	$(shell terraform show -no-color current.plan | sed -n '/Terraform will perform the following actions/,$$p' | perl -nle 'if (/\s# (.*?)\s/) {print $$1}' | grep -E -w -v '$(1)' | sed -e 's/^/-target="/g' -e 's/$$/"/g' | xargs)
 endef
 
 define PLAN_OPTIONS_INCLUDE
-	$(shell terraform show -no-color current.plan | sed -n '/Terraform will perform the following actions/,$$p' | perl -nle 'if (/\s# (.*?)\s/) {print $$1}' | grep -E '$(1)' | sed -e 's/^/-target="/g' -e 's/$$/"/g' | xargs)
+	$(shell terraform show -no-color current.plan | sed -n '/Terraform will perform the following actions/,$$p' | perl -nle 'if (/\s# (.*?)\s/) {print $$1}' | grep -E -w '$(1)' | sed -e 's/^/-target="/g' -e 's/$$/"/g' | xargs)
 endef
 
 .PHONY: clean plan apply test
@@ -57,10 +58,10 @@ plan: clean init get_modules
 	terraform show -json current.plan > plan.json
 
 plan_exclude:
-	terraform plan -out current.plan $(strip $(call PLAN_OPTIONS_EXCLUDE,$(EXCLUDE)))
+	terraform plan -out current.plan ${PLAN_OPTIONS} $(strip $(call PLAN_OPTIONS_EXCLUDE,$(EXCLUDE)))
 
 plan_include:
-	terraform plan -out current.plan $(strip $(call PLAN_OPTIONS_INCLUDE,$(INCLUDE)))
+	terraform plan -out current.plan ${PLAN_OPTIONS} $(strip $(call PLAN_OPTIONS_INCLUDE,$(INCLUDE)))
 
 apply: current.plan
 	terraform apply -auto-approve ${APPLY_OPTIONS} current.plan
@@ -69,10 +70,10 @@ test:
 	@terraform fmt -diff=true -write=false
 
 destroy_plan:
-	terraform plan -destroy -out destroy.plan
+	terraform plan -destroy ${DESTROY_OPTIONS} -out destroy.plan
 
 destroy_apply:
-	terraform apply -destroy destroy.plan
+	terraform apply -destroy ${DESTROY_OPTIONS} destroy.plan
 
 doc:
 	@cd "$$(git rev-parse --show-toplevel)" && for i in common/modules/* {test,prod}/ap-southeast-2; do terraform-docs markdown --output-file README.md $$i; done

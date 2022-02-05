@@ -1,7 +1,7 @@
 output "config" {
   value = {
-    bucket         = aws_s3_bucket.s3_bucket.bucket
-    dynamodb_table = aws_dynamodb_table.dynamodb_table.name
+    bucket         = module.s3backend.s3_bucket
+    dynamodb_table = module.s3backend.dynamodb_table
   }
 }
 

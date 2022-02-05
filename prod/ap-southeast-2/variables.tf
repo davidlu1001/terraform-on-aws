@@ -35,7 +35,7 @@ variable "namespace" {
 
 variable "force_destroy_state" {
   description = "Force destroy the s3 bucket containing state files?"
-  default     = false
+  default     = true
   type        = bool
 }
 

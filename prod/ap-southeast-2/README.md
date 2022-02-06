@@ -24,7 +24,7 @@
 | <a name="module_db"></a> [db](#module\_db) | terraform-aws-modules/rds/aws | ~> 3.0 |
 | <a name="module_ec2_gateway"></a> [ec2\_gateway](#module\_ec2\_gateway) | ../../common/modules/ec2-instance | n/a |
 | <a name="module_s3backend"></a> [s3backend](#module\_s3backend) | git@github.com:davidlu1001/terraform-on-aws-s3-backend.git | simple |
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | n/a |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | ~> 3.11 |
 
 ## Resources
 

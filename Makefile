@@ -44,7 +44,7 @@ init:
 get_modules:
 	terraform get
 
-check: clean get_modules
+check: clean
 	@cd "$$(git rev-parse --show-toplevel)" || exit 1
 	docker run \
 		-e INFRACOST_API_KEY=$$(awk -F': ' '/api_key/{print $$NF}' ~/.config/infracost/credentials.yml) \

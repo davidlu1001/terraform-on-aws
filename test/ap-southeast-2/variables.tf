@@ -120,6 +120,19 @@ variable "ecr_repo_name" {
   type        = string
 }
 
+# ECR lifecycle policy
+variable "ecr_image_count_tagged" {
+  description = "Number of tagged images to keep in ECR"
+  default     = 3
+  type        = number
+}
+
+variable "ecr_image_days_untagged" {
+  description = "Number of days to keep untagged images in ECR"
+  default     = 1
+  type        = number
+}
+
 variable "rds_db_name" {
   description = "DB Name for RDS"
   default     = "todobackend"

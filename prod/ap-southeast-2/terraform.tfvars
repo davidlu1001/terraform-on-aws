@@ -14,6 +14,10 @@ ssh_pubkey_file  = "~/.ssh/id_rsa_ac.pub"
 instance_type    = "t3a.small"
 root_volume_size = 50
 
+# ECR
+ecr_image_days_untagged = 14
+ecr_image_count_tagged  = 30
+
 # DB
 db_instance_type                      = "db.t3.large"
 multi_az                              = true

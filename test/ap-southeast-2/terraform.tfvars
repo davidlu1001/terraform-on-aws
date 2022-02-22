@@ -14,6 +14,10 @@ ssh_pubkey_file  = "~/.ssh/id_rsa_ac.pub"
 instance_type    = "t3a.micro"
 root_volume_size = 30
 
+# ECR
+ecr_image_days_untagged = 1
+ecr_image_count_tagged  = 3
+
 # DB
 db_instance_type                      = "db.t3.micro"
 multi_az                              = false

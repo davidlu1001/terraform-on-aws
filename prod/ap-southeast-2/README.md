@@ -3,16 +3,16 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.1 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.63 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.69 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.0 |
-| <a name="provider_null"></a> [null](#provider\_null) | 3.1.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.75.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.1.1 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.1.2 |
 | <a name="provider_template"></a> [template](#provider\_template) | 2.2.0 |
 
 ## Modules
@@ -30,11 +30,13 @@
 
 | Name | Type |
 |------|------|
-| [aws_alb_listener.alb-http-listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener) | resource |
+| [aws_alb_listener.alb-http-listener-forward](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener) | resource |
+| [aws_alb_listener.alb-http-listener-redirect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener) | resource |
 | [aws_alb_listener.alb-https-listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener) | resource |
 | [aws_alb_target_group.target-group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_target_group) | resource |
 | [aws_cloudwatch_log_group.ecs-log-group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_stream.ecs-log-stream](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_stream) | resource |
+| [aws_ecr_lifecycle_policy.app-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_lifecycle_policy) | resource |
 | [aws_ecr_repository.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) | resource |
 | [aws_ecs_cluster.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
 | [aws_ecs_service.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
@@ -91,13 +93,15 @@
 | <a name="input_db_max_allocated_storage"></a> [db\_max\_allocated\_storage](#input\_db\_max\_allocated\_storage) | DB Max Allocated Storage Size | `number` | `100` | no |
 | <a name="input_db_storage_encrypted"></a> [db\_storage\_encrypted](#input\_db\_storage\_encrypted) | DB Storage Encrypted | `bool` | `false` | no |
 | <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | DB Deletion Protection | `bool` | `false` | no |
+| <a name="input_ecr_image_count_tagged"></a> [ecr\_image\_count\_tagged](#input\_ecr\_image\_count\_tagged) | Number of tagged images to keep in ECR | `number` | `3` | no |
+| <a name="input_ecr_image_days_untagged"></a> [ecr\_image\_days\_untagged](#input\_ecr\_image\_days\_untagged) | Number of days to keep untagged images in ECR | `number` | `1` | no |
 | <a name="input_ecr_repo_name"></a> [ecr\_repo\_name](#input\_ecr\_repo\_name) | ECR repositry name | `string` | `"aws-learn-devops/todobackend"` | no |
 | <a name="input_ecs_task_count"></a> [ecs\_task\_count](#input\_ecs\_task\_count) | Number of instances of the task definition to place and keep running. Defaults to 0. | `number` | `1` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The AWS Environment | `string` | n/a | yes |
 | <a name="input_force_destroy_state"></a> [force\_destroy\_state](#input\_force\_destroy\_state) | Force destroy the s3 bucket containing state files? | `bool` | `true` | no |
 | <a name="input_healthcheck_path"></a> [healthcheck\_path](#input\_healthcheck\_path) | Path to a LB healthcheck endpoint | `string` | `"/"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The EC2 instance type for gateway/ASG | `string` | `"t3a.micro"` | no |
-| <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | Log Retention In Days | `number` | `7` | no |
+| <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | Log Retention In Days | `number` | `1` | no |
 | <a name="input_multi_az"></a> [multi\_az](#input\_multi\_az) | DB Multi AZ | `bool` | `false` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The project namespace to use for unique resource naming | `string` | `"app"` | no |
 | <a name="input_performance_insights_enabled"></a> [performance\_insights\_enabled](#input\_performance\_insights\_enabled) | DB Performance Insights Enabled | `bool` | `false` | no |
@@ -111,7 +115,7 @@
 | <a name="input_skip_final_snapshot"></a> [skip\_final\_snapshot](#input\_skip\_final\_snapshot) | DB Skip Final Snapshot | `bool` | `true` | no |
 | <a name="input_ssh_pubkey_file"></a> [ssh\_pubkey\_file](#input\_ssh\_pubkey\_file) | The public key for ssh keypair | `string` | `"~/.ssh/id_rsa_ac.pub"` | no |
 | <a name="input_subnet_octets"></a> [subnet\_octets](#input\_subnet\_octets) | The CIDR prefix for VPC subnet | `string` | n/a | yes |
-| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | The route53 zone id for vpc\_root\_domain | `string` | n/a | yes |
+| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | The route53 zone id for vpc\_root\_domain | `string` | `""` | no |
 
 ## Outputs
 

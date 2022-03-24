@@ -78,6 +78,31 @@ Once configured, we'll run a single `make` command to set up the following AWS i
 
     - Using [terraform-docs](https://github.com/terraform-docs/terraform-docs) to generate documentation for Terraform
 
+# How to run
+- Clone the repo to your local machine
+- Run `make plan` to initialize and generate the Terraform execution plan for the whole infrastructure
+- Run `make plan_include INCLUDE='ecr'` to ONLY deploy the AWS ECR repository and its policy
+- Clone the repo [aws_devops_todo](https://github.com/davidlu1001/aws_devops_todo/tree/final) for Django demo application and run the following commands to build/test/publish the Docker image to AWS ECR repository:
+
+```
+export AWS_DEFAULT_PROFILE="[YOUR_AWS_PROFILE]"
+export ACCOUNT_ID=[YOUR_AWS_ACCOUNT_ID]
+
+make login
+make test
+make release
+make publish
+```
+- For different environments (test / prod), modify the variables in the `terraform.tfvars` file accordingly
+- Re-run `make plan` to generate the execution plan again for the AWS infrastructure
+- Run `make apply` to deploy the AWS infrastructure
+
+So far, the Terraform's state file is still stored ***Locally*** in the `.terraform` directory.
+
+If you want to enable S3 bucket as Remote Backend, you can:
+- Uncomment the `state.tf` file for each environment folder (test / prod)
+- Run `make init` or `make plan` again to re-initialize the backend and migrate the state to remote S3 bucket
+
 # Ref Architecture
 
 ![reference architecture for deploying containerized microservices with ECS](https://github.com/aws-samples/ecs-refarch-cloudformation/raw/master/images/architecture-overview.png)

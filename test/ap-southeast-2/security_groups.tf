@@ -165,10 +165,13 @@ resource "aws_security_group" "rds" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    protocol        = "tcp"
-    from_port       = "3306"
-    to_port         = "3306"
-    security_groups = [aws_security_group.ecs.id]
+    protocol  = "tcp"
+    from_port = "3306"
+    to_port   = "3306"
+    security_groups = [
+      aws_security_group.bastion.id,
+      aws_security_group.ecs.id
+    ]
   }
 
   egress {

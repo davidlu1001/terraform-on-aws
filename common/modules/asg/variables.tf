@@ -73,6 +73,7 @@ variable "cost_center" {
 
 variable "zone_id" {
   description = "The zone ID to tag ecs instances"
+  default     = ""
 }
 
 variable "instance_type" {

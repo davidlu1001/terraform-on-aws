@@ -35,9 +35,7 @@ data "template_file" "app" {
   }
 
   depends_on = [
-    aws_ecr_repository.app,
-    module.db,
-    aws_ssm_parameter.database_password_parameter
+    module.db
   ]
 }
 
@@ -83,20 +81,19 @@ resource "aws_ecs_service" "app" {
 
   lifecycle {
     ignore_changes = [
-      desired_count,
+      desired_count
     ]
     create_before_destroy = true
   }
 }
 
 # Onetime ECS task for db migrate
-# Ref: https://github.com/hashicorp/terraform-provider-aws/issues/9777
 
 data "template_file" "migrate" {
   template = file("../../common/files/task-def-migrate.json.tpl")
 
   vars = {
-    name         = "${local.name}"
+    name         = local.name
     docker_image = aws_ecr_repository.app.repository_url
     image_tag    = "latest"
     region       = local.region
@@ -107,7 +104,6 @@ data "template_file" "migrate" {
   }
 
   depends_on = [
-    aws_ecr_repository.app,
     module.db
   ]
 }

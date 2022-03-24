@@ -35,9 +35,7 @@ data "template_file" "app" {
   }
 
   depends_on = [
-    aws_ecr_repository.app,
-    module.db,
-    aws_ssm_parameter.database_password_parameter
+    module.db
   ]
 }
 
@@ -83,7 +81,7 @@ resource "aws_ecs_service" "app" {
 
   lifecycle {
     ignore_changes = [
-      desired_count,
+      desired_count
     ]
     create_before_destroy = true
   }
@@ -106,7 +104,6 @@ data "template_file" "migrate" {
   }
 
   depends_on = [
-    aws_ecr_repository.app,
     module.db
   ]
 }

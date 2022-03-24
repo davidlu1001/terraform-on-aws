@@ -94,6 +94,40 @@ make release
 make publish
 ```
 - For different environments (test / prod), modify the variables in the `terraform.tfvars` file accordingly
+    - If you do not have a registered public domain name, you can comment out the `root_domain / zone_id` in the `terraform.tfvars` file to skip creating DNS records and ACM certificate.
+```
+# e.g.
+
+# General
+environment           = "test"
+account_id            = "[YOUR_AWS_ACCOUNT_ID]"
+region                = "[YOUR_AWS_REGION]"
+force_destroy_state   = true
+namespace             = "[APP_NAMESPACE]"
+root_domain           = "[YOUR_ROOT_DOMAIN]"
+zone_id               = "[YOUR_ROUTE53_ZONE_ID]"
+subnet_octets         = "172.21"
+log_retention_in_days = 1
+
+# EC2
+ssh_pubkey_file  = "~/.ssh/id_rsa.pub"
+instance_type    = "t3a.micro"
+root_volume_size = 30
+
+# ECR
+ecr_image_days_untagged = 1
+ecr_image_count_any = 3
+
+# DB
+db_instance_type                      = "db.t3.micro"
+multi_az                              = false
+db_storage_encrypted                  = false
+backup_retention_period               = 0
+skip_final_snapshot                   = true
+deletion_protection                   = false
+performance_insights_enabled          = false
+performance_insights_retention_period = 0
+```
 - Re-run `make plan` to generate the execution plan again for the AWS infrastructure
 - Run `make apply` to deploy the AWS infrastructure
 

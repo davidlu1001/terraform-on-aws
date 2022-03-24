@@ -15,6 +15,11 @@ data "template_cloudinit_config" "cloud_config" {
     content_type = "text/cloud-config"
     content      = data.template_file.cloud_config.rendered
   }
+
+  part {
+    content_type = var.extra_cloud_config_type
+    content      = var.extra_cloud_config_content
+  }
 }
 
 locals {
@@ -82,6 +87,7 @@ data "aws_eip" "main" {
 
 # maps route53 record to eip
 resource "aws_route53_record" "main_eip" {
+  count   = length(var.zone_id) > 0 ? 1 : 0
   zone_id = var.zone_id
   name    = "${var.route53_record_prefix}-${element(split("-", aws_instance.main.id), 1)}"
   type    = "A"

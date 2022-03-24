@@ -10,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.6.0 |
 | <a name="provider_template"></a> [template](#provider\_template) | 2.2.0 |
 
 ## Modules
@@ -41,6 +41,8 @@ No modules.
 | <a name="input_ebs_volume_type"></a> [ebs\_volume\_type](#input\_ebs\_volume\_type) | ebs volume device type | `string` | `"gp2"` | no |
 | <a name="input_eip_allocation_id"></a> [eip\_allocation\_id](#input\_eip\_allocation\_id) | Elastic IP ID to allocate to the instance. | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment | `any` | n/a | yes |
+| <a name="input_extra_cloud_config_content"></a> [extra\_cloud\_config\_content](#input\_extra\_cloud\_config\_content) | Extra cloud config content | `string` | `""` | no |
+| <a name="input_extra_cloud_config_type"></a> [extra\_cloud\_config\_type](#input\_extra\_cloud\_config\_type) | Extra cloud config type | `string` | `"text/cloud-config"` | no |
 | <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Extra tags assigned to the EC2 instance. | `map` | `{}` | no |
 | <a name="input_iam_instance_profile_arn"></a> [iam\_instance\_profile\_arn](#input\_iam\_instance\_profile\_arn) | Instance profile arn | `string` | `""` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | AMI Image ID | `any` | n/a | yes |

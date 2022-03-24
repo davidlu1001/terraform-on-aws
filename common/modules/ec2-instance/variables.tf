@@ -110,3 +110,13 @@ variable "router53_allow_overwrite" {
   description = "Allows TF to overwrite any prior record, to become the source-of-truth."
   default     = true
 }
+
+variable "extra_cloud_config_type" {
+  description = "Extra cloud config type"
+  default     = "text/cloud-config"
+}
+
+variable "extra_cloud_config_content" {
+  description = "Extra cloud config content"
+  default     = ""
+}

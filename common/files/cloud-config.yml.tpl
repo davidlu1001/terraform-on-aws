@@ -15,4 +15,4 @@ ssh_authorized_keys:
 
 # Post scripts or Ansible playbooks
 runcmd:
-  - echo "Hello World"
+  - sudo yum install mysql telnet -y

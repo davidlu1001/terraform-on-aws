@@ -24,9 +24,9 @@ resource "aws_ecr_lifecycle_policy" "app-policy" {
         },
         {
             "rulePriority": 2,
-            "description": "Keep last X tagged images",
+            "description": "Keep last X images (for any tag)",
             "selection": {
-                "tagStatus": "tagged",
+                "tagStatus": "any",
                 "countType": "imageCountMoreThan",
                 "countNumber": ${var.ecr_image_count_tagged}
             },

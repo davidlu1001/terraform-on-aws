@@ -21,7 +21,6 @@ repos:
       - id: terrascan
       - id: terraform_tflint
         args:
-          - '--args=--config=/lint/.tflint.hcl'
           - '--args=--only=terraform_deprecated_interpolation'
           - '--args=--only=terraform_deprecated_index'
           - '--args=--only=terraform_unused_declarations'

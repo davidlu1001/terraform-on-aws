@@ -1,4 +1,5 @@
 module "acm_lb" {
+  count   = length(var.zone_id) > 0 ? 1 : 0
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 3.0"
 

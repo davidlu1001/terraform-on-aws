@@ -88,6 +88,7 @@ variable "root_volume_size" {
 variable "zone_id" {
   description = "The route53 zone id for vpc_root_domain"
   type        = string
+  default     = ""
 }
 
 variable "healthcheck_path" {
@@ -218,6 +219,6 @@ variable "performance_insights_retention_period" {
 # CloudWatch Log retention_in_days
 variable "log_retention_in_days" {
   description = "Log Retention In Days"
-  default     = 7
+  default     = 1
   type        = number
 }

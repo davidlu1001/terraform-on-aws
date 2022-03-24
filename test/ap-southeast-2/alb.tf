@@ -52,11 +52,12 @@ resource "aws_alb_target_group" "target-group" {
 
 # HTTPS Listener (redirects traffic from the load balancer to the target group)
 resource "aws_alb_listener" "alb-https-listener" {
+  count             = length(var.zone_id) > 0 ? 1 : 0
   load_balancer_arn = aws_lb.alb.id
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = module.acm_lb.acm_certificate_arn
+  certificate_arn   = length(var.zone_id) > 0 ? one(module.acm_lb[*].acm_certificate_arn) : null
   depends_on        = [aws_alb_target_group.target-group]
 
   default_action {
@@ -68,7 +69,8 @@ resource "aws_alb_listener" "alb-https-listener" {
 }
 
 # HTTP Listener - redirect action (http to https) "HTTPS://#{host}:443/#{path}?#{query}"
-resource "aws_alb_listener" "alb-http-listener" {
+resource "aws_alb_listener" "alb-http-listener-redirect" {
+  count             = length(var.zone_id) > 0 ? 1 : 0
   load_balancer_arn = aws_lb.alb.id
   port              = "80"
   protocol          = "HTTP"
@@ -82,6 +84,21 @@ resource "aws_alb_listener" "alb-http-listener" {
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
+  }
+
+  tags = local.tags
+}
+
+resource "aws_alb_listener" "alb-http-listener-forward" {
+  count             = length(var.zone_id) > 0 ? 0 : 1
+  load_balancer_arn = aws_lb.alb.id
+  port              = "80"
+  protocol          = "HTTP"
+  depends_on        = [aws_alb_target_group.target-group]
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.target-group.arn
   }
 
   tags = local.tags

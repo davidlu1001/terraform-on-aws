@@ -11,7 +11,7 @@ output "tags" {
 
 output "gateway" {
   value = {
-    dns_record = aws_route53_record.gateway.fqdn
+    dns_record = aws_route53_record.gateway.*.fqdn
     public_ip  = module.ec2_gateway.instance_public_ip
   }
 }
@@ -19,7 +19,7 @@ output "gateway" {
 output "alb_public_dns_name" {
   description = "Public DNS names of the load balancer"
   value = {
-    route53_record = aws_route53_record.alb.name
+    route53_record = aws_route53_record.alb.*.name
     alb_dns_name   = aws_lb.alb.dns_name
   }
 }

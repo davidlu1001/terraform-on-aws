@@ -88,6 +88,7 @@ variable "root_volume_size" {
 variable "zone_id" {
   description = "The route53 zone id for vpc_root_domain"
   type        = string
+  default     = ""
 }
 
 variable "healthcheck_path" {

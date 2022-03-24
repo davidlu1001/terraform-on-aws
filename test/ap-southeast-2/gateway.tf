@@ -49,15 +49,17 @@ module "ec2_gateway" {
   ]
 
   region            = local.region
-  availability_zone = "${local.region}a"
+  availability_zone = local.region
 
-  instance_type             = var.instance_type
-  root_volume_size          = var.root_volume_size
-  vpc_domain                = local.vpc_domain
-  route53_record_prefix     = local.route53_record_prefix
-  zone_id                   = var.zone_id
-  ebs_delete_on_termination = true
-  eip_allocation_id         = aws_eip.gateway.id
+  instance_type              = var.instance_type
+  root_volume_size           = var.root_volume_size
+  vpc_domain                 = local.vpc_domain
+  route53_record_prefix      = local.route53_record_prefix
+  zone_id                    = var.zone_id
+  ebs_delete_on_termination  = true
+  eip_allocation_id          = aws_eip.gateway.id
+  extra_cloud_config_type    = "text/cloud-config"
+  extra_cloud_config_content = data.template_cloudinit_config.cloud_config.rendered
 }
 
 resource "aws_iam_role" "gateway" {
@@ -76,6 +78,7 @@ resource "aws_iam_instance_profile" "gateway" {
 }
 
 resource "aws_route53_record" "gateway" {
+  count           = length(var.zone_id) > 0 ? 1 : 0
   zone_id         = var.zone_id
   name            = "gateway"
   type            = "A"

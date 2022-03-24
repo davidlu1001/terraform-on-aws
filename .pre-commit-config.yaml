@@ -1,9 +1,10 @@
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.62.3
+    rev: v1.64.0
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
+        exclude: ^common
       - id: terraform_docs
         args:
           - '--args=--lockfile=false'
@@ -12,9 +13,7 @@ repos:
         args:
           - --args=--path=/lint/test/ap-southeast-2/plan.json
           - --hook-config='.totalHourlyCost|tonumber > 0.1'
-          - --hook-config='.totalMonthlyCost|tonumber >= 90'
-          - --hook-config='.diffTotalHourlyCost|tonumber > 0.1'
-          - --hook-config='.diffTotalMonthlyCost|tonumber >= 90'
+          - --hook-config='.totalMonthlyCost|tonumber >= 80'
           - --hook-config='.currency == "USD"'
         verbose: true # Always show costs
       - id: terraform_tfsec
@@ -22,6 +21,7 @@ repos:
       - id: terrascan
       - id: terraform_tflint
         args:
+          - '--args=--config=/lint/.tflint.hcl'
           - '--args=--only=terraform_deprecated_interpolation'
           - '--args=--only=terraform_deprecated_index'
           - '--args=--only=terraform_unused_declarations'

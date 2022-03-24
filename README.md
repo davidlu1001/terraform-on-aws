@@ -5,8 +5,8 @@ In this tutorial, using Terraform, we'll develop the high-level configuration fi
 Once configured, we'll run a single `make` command to set up the following AWS infrastructure:
 
 - Init:
-    - S3: for remote state
-    - DynamoDB: for locking
+    - S3: for storing remote state
+    - DynamoDB: for state locking
     - KMS for encryption
 
 - Networking (with existing [VPC](https://github.com/terraform-aws-modules/terraform-aws-vpc) module):
@@ -16,13 +16,18 @@ Once configured, we'll run a single `make` command to set up the following AWS i
     - Internet Gateway
     - NAT Gateway
 
-- DNS
+- DNS [Optional]
 
-- ACM with Route53 DNS validation (using existing [ACM](https://github.com/terraform-aws-modules/terraform-aws-acm) module)
+- ACM with Route53 DNS validation (using existing [ACM](https://github.com/terraform-aws-modules/terraform-aws-acm) module) [Optional]
+
+- Add support for deployment without DNS zone ID and ACM certificate
 
 - EC2 (Bastion/Gateway with local [EC2](https://github.com/davidlu1001/terraform-on-aws/tree/master/common/modules/ec2-instance) module)
     - Elastic IP
-    - [cloud-init](https://github.com/canonical/cloud-init) (for cloud instance initialization)
+    - Route53 DNS record for bastion/gateway
+    - Use [cloud-init](https://github.com/canonical/cloud-init) for EC2 instance initialization
+    - Allow SSH access to the bastion/gateway with your [SSH Key Pair] uploaded to AWS
+    - Allow bastion/gateway to access the DB instance under private subnet
 
 - Key Pairs
 

@@ -49,7 +49,7 @@ module "ec2_gateway" {
   ]
 
   region            = local.region
-  availability_zone = local.region
+  availability_zone = "${local.region}a"
 
   instance_type              = var.instance_type
   root_volume_size           = var.root_volume_size
